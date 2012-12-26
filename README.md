@@ -12,6 +12,10 @@ You can use this daemon to remind you of things on short notice (like that you
 really should go sleeping), or long time planning (sending you a mail the day
 before your exam).
 
+## Running it yourself
+
+Just run `alarm-cli.sh`, and the rest should be self-explanatory.
+
 ## Known bugs
 
 As the daemon and the cli use the same files, they might clash. For now, try
