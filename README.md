@@ -16,11 +16,6 @@ before your exam).
 
 Just run `alarm-cli.sh`, and the rest should be self-explanatory.
 
-## Known bugs
-
-As the daemon and the cli use the same files, they might clash. For now, try
-to run the cli while the daemon is sleeping.
-
 ## Possible features
 
 I've already implemented listing future events with a `-l` option. This list
