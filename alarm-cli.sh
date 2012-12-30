@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 
-# Config file and data directory constants.
 CONFIG="$XDG_CONFIG_HOME/alarm.conf"
-DATA="$XDG_DATA_HOME/alarm"
+LOCK="/tmp/alarm.lock"
 
 # The program's default precision in seconds.
-PRECISION="300"
+data="$XDG_DATA_HOME/alarm"
+precision="300"
+
+# We most certainly do not want to clash with the daemon, so let's wait
+# for the lock on $LOCK.
+exec 9>"$LOCK"
+flock --exclusive 9
 
 #=============================================================================#
 # Very functional functions.                                                  #
@@ -72,9 +77,6 @@ filter_name() {
 # Reading the configurations from the config file, if it exists.
 if [ -e "$CONFIG" ]; then
     . "$CONFIG"
-else
-    data="$DATA"
-    precision="$PRECISION"
 fi
 
 newdate=
@@ -106,9 +108,8 @@ while getopts "hld:p:t:a:f:n:" option; do
             move_data "$data" "$newdata"
             ;;
         p)
-            precision="$OPTARG"
-            if [ $precision = "0" ]; then
-                precision="$PRECISION"
+            if [ "$OPTARG" != "0" ]; then
+                precision="$OPTARG"
             fi
             ;;
         t)
